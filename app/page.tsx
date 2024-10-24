@@ -13,9 +13,9 @@ const CookiesTable = ({
   washingtonCookies,
   europeCookies,
 }: {
-  californiaCookies: any[];
-  washingtonCookies: any[];
-  europeCookies: any[];
+  californiaCookies: string[];
+  washingtonCookies: string[];
+  europeCookies: string[];
 }) => (
   <div className="w-full p-4">
     <h2 className="text-2xl font-bold mb-4 text-gray-800">Cookies Table</h2>
