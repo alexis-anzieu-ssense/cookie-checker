@@ -1,3 +1,4 @@
+export const runtime = "edge";
 export const preferredRegion = "us-west-1";
 export const dynamic = "force-dynamic"; // no caching
 
