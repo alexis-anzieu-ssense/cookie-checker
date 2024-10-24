@@ -1,5 +1,5 @@
 export const runtime = "edge";
-export const preferredRegion = "eu-west-3";
+export const preferredRegion = "cdg1";
 export const dynamic = "force-dynamic"; // no caching
 
 export async function GET() {

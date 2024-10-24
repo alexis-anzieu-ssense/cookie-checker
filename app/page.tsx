@@ -1,40 +1,77 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function Home() {
-  const [cookiesData, setCookiesData] = useState<string[]>([]);
+const fetchCookies = async (url: string) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data.cookies;
+};
+
+const CookiesTable = ({
+  californiaCookies,
+  washingtonCookies,
+  europeCookies,
+}: {
+  californiaCookies: any[];
+  washingtonCookies: any[];
+  europeCookies: any[];
+}) => (
+  <div className="w-full p-4">
+    <h2 className="text-2xl font-bold mb-4 text-gray-800">Cookies Table</h2>
+    <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden table-fixed">
+      <thead>
+        <tr className="bg-gray-200">
+          <th className="border px-4 py-2">California</th>
+          <th className="border px-4 py-2">Washington</th>
+          <th className="border px-4 py-2">Europe</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Array.from({
+          length: Math.max(
+            californiaCookies.length,
+            washingtonCookies.length,
+            europeCookies.length
+          ),
+        }).map((_, index) => (
+          <tr key={index} className="border-b hover:bg-gray-100">
+            <td className="border px-4 py-2 truncate">
+              {californiaCookies[index]?.substring(0, 50) || ""}
+            </td>
+            <td className="border px-4 py-2 truncate">
+              {washingtonCookies[index]?.substring(0, 50) || ""}
+            </td>
+            <td className="border px-4 py-2 truncate">
+              {europeCookies[index]?.substring(0, 50) || ""}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+const Page = () => {
+  const [californiaCookies, setCaliforniaCookies] = useState([]);
+  const [washingtonCookies, setWashingtonCookies] = useState([]);
+  const [europeCookies, setEuropeCookies] = useState([]);
 
   useEffect(() => {
-    async function fetchCookies() {
-      const response = await fetch("/api/california");
-      const data = await response.json();
-      setCookiesData(data.cookies);
-    }
-
-    fetchCookies();
+    fetchCookies("/api/california").then(setCaliforniaCookies);
+    fetchCookies("/api/washington").then(setWashingtonCookies);
+    fetchCookies("/api/europe").then(setEuropeCookies);
   }, []);
+
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-4">
-          Cookies Data From California
-        </h1>
-        <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-          <thead className="bg-gray-200 dark:bg-gray-700">
-            <tr>
-              <th className="py-2 px-4 text-left">Cookie</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cookiesData.map((cookie, index) => (
-              <tr key={index} className="border-b dark:border-gray-700">
-                <td className="py-2 px-4">{cookie}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </main>
+    <div className="flex flex-wrap justify-center bg-gray-50 p-6">
+      <CookiesTable
+        californiaCookies={californiaCookies}
+        washingtonCookies={washingtonCookies}
+        europeCookies={europeCookies}
+      />
     </div>
   );
-}
+};
+
+export default Page;
