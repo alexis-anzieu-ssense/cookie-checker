@@ -1,4 +1,4 @@
-export const preferredRegion = ["us-east-1"];
+export const preferredRegion = "us-east-1";
 export const dynamic = "force-dynamic"; // no caching
 
 export async function GET() {
