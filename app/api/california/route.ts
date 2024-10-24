@@ -1,7 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
+
 export const dynamic = "force-dynamic"; // no caching
 
 export async function GET() {
-  const response = await fetch("https://www.ssense.com/en-ca/men");
+  const uuid = uuidv4();
+  const response = await fetch(`https://www.ssense.com/en-ca/men?${uuid}`);
   const cookies = response.headers.get("set-cookie");
 
   const datePattern = /\d{1,2} \w{3} \d{4}/;
